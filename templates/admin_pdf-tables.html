@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Admin Panel</title>
+    <link href="{{ url_for('static', filename='css/dataTables/dataTables.bootstrap.min.js') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/dataTables/jquery.dataTables.min.js') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/metisMenu.min.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/timeline.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/startmin.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/morris.css') }}" rel="stylesheet">
+
+    <link href="{{ url_for('static', filename='css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">Admin Kontrol Paneli</a>
+            </div>
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li>
+                            <a href="/admin/index" class="active"><i class="fa fa-dashboard fa-fw"></i> Anasayfa</a>
+                        </li>
+                        <li>
+                            <a href="/admin/index"><i class="fa fa-bar-chart-o fa-fw"></i>Kullanıcı İşlemleri</a>
+
+                        </li>
+                        <li>
+                            <a href="/admin/pdf"><i class="fa fa-table fa-fw"></i>PDF</a>
+                        </li>
+                        <li>
+                            <a href="/admin/logout"><i class="fa fa-table fa-fw"></i>Çıkış</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header">Sayfa Başlığı</h1>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="panel panel-default">
+
+                        </div>
+
+
+                            <div class="panel-body">
+
+
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                DataTables Advanced Tables
+                                            </div>
+                                            <!-- /.panel-heading -->
+                                            <div class="panel-body">
+                                                <div class="table-responsive">
+                                                    
+                                                    <table class="table table-striped table-bordered table-hover" id="dataTables-example">
+                                                        
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Proje Baslık</th>
+                                                                <th>Yukleyen</th>
+                                                                <th>Yazar</th>
+                                                                <th>Ders</th>
+                                                                <th>Donem</th>
+                                                                <th>Tarih</th>
+                                                                <th>Anahtar Kelimeler</th>
+                                                                <th>Danısman</th>
+                                                                <th>Juri</th>
+                                                                <th>PDF</th>
+                                                                <th>Sil</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        
+                                                            {% for row in data %}
+                                                            <tr>
+                                                                <th>{{ row.project_summary.split(',')[0] }}</th>
+                                                                <th>{{ User.query.filter(User.id == row.user_id).first().email }}</th>
+                                                                <th> {{ row.author_names }} </th>
+                                                                <th>{{ row.type }}</th>
+                                                                <th>{{ row.submitted_term }}</th>
+                                                                <th>{{ row.date_created }}</th>
+                                                                <th>{{ row.keywords }}</th>
+                                                                <th>{{ row.advisors }}</th>
+                                                                <th>{{ row.jury }}</th>
+                                                                <th><a href="/pdf_download?pdf-id={{row.id}}">Download</a></th>
+                                                                <th><a href="/pdf_remove?pdf-id={{row.id}}">Remove</a></th>
+                                                            </tr>
+                                                            {% endfor %}
+                                                            
+                                                        </tbody>
+
+
+                                                    </table>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/metisMenu.min.js') }}"></script>
+
+    <script src="{{ url_for('static', filename='js/dataTables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/dataTables/dataTables.bootstrap.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/startmin.js') }}"></script>
+
+    <!-- <script src="../js/raphael.min.js"></script> -->
+    <!-- <script src="../js/morris.min.js"></script>
+    <script src="../js/morris-data.js"></script> -->
+    <script>
+        $(document).ready(function() {
+            $('#dataTables-example').DataTable({
+                    responsive: true
+            });
+        });
+    </script>
+
+</body>
+
+</html>
